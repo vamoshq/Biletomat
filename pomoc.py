@@ -14,6 +14,8 @@ def help_window(frame,back_to_menu):
         font=ctk.CTkFont(size=20, weight="bold"),
         text_color="black"
     )
+   
+    
 
     # Lista podpunktów z pomocnymi informacjami
     help_items = [
@@ -80,6 +82,7 @@ def help_window(frame,back_to_menu):
         width=100,
         height=40,
         corner_radius=15,
+        fg_color="#333333"
     )
     back_button.pack(pady=20)
 

@@ -114,6 +114,7 @@ def top_up_card_window(frame,back_to_menu):
         width=100,
         height=40,
         corner_radius=15,
+        fg_color="#333333"
     )
     back_button.pack(pady=10)
 

@@ -42,6 +42,9 @@ def main_window():
         )
         title_label.pack(pady=20)
 
+        separator = ctk.CTkFrame (main_frame,height=2, fg_color="#cccccc")
+        separator.pack(fill="x", padx=20, pady=10)
+
         # Ramka na przyciski
         button_frame = ctk.CTkFrame(main_frame, fg_color="transparent")  # Ustawienie przezroczystości
         button_frame.pack(pady=50)

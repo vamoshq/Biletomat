@@ -10,6 +10,9 @@ def payment_screen(frame, back_to_menu, total_amount):
         text_color="black"
     )
     title_label.pack(pady=20)
+     # Pozioma kreska
+    separator = ctk.CTkFrame(frame, height=2, fg_color="#cccccc")
+    separator.pack(fill="x", padx=20, pady=10)
 
     # Wyświetlenie kwoty do zapłaty
     amount_label = ctk.CTkLabel(

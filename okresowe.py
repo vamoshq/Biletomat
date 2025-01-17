@@ -14,6 +14,9 @@ def cash_payment_screen(frame, total_amount, back_to_payment_screen):
         text_color="black"
     )
     title_label.pack(pady=20)
+     # Pozioma kreska
+    separator = ctk.CTkFrame(frame, height=2, fg_color="#cccccc")
+    separator.pack(fill="x", padx=20, pady=10)
 
     # Wyświetlenie należności
     amount_label = ctk.CTkLabel(
@@ -70,6 +73,7 @@ def cash_payment_screen(frame, total_amount, back_to_payment_screen):
         text="Powrót",
         font=ctk.CTkFont(size=16),
         width=150,
+        fg_color="#333333",
         command=back_to_payment_screen
     )
     back_button.pack(pady=20)
@@ -87,6 +91,9 @@ def card_payment_screen(frame, total_amount, back_to_payment_screen):
         text_color="black"
     )
     title_label.pack(pady=20)
+     # Pozioma kreska
+    separator = ctk.CTkFrame(frame, height=2, fg_color="#cccccc")
+    separator.pack(fill="x", padx=20, pady=10)
 
     # Wyświetlenie należności
     amount_label = ctk.CTkLabel(
@@ -144,6 +151,7 @@ def card_payment_screen(frame, total_amount, back_to_payment_screen):
         text="Powrót",
         font=ctk.CTkFont(size=16),
         width=150,
+        fg_color="#333333",
         command=back_to_payment_screen
     )
     back_button.pack(pady=20)
@@ -161,6 +169,9 @@ def payment_screen(frame, back_to_tickets, total_amount):
         text_color="black"
     )
     title_label.pack(pady=20)
+     # Pozioma kreska
+    separator = ctk.CTkFrame(frame, height=2, fg_color="#cccccc")
+    separator.pack(fill="x", padx=20, pady=10)
 
     # Wyświetlenie kwoty do zapłaty
     amount_label = ctk.CTkLabel(
@@ -227,6 +238,7 @@ def payment_screen(frame, back_to_tickets, total_amount):
         width=200,
         height=40,
         corner_radius=20,
+        fg_color="#333333",
         command=back_to_tickets
     )
     back_button.pack(pady=20)
@@ -252,56 +264,68 @@ def periodic_tickets_window(frame, back_to_menu):
     )
     title_label.pack(pady=20)
 
-    # Dane biletów okresowych
+    # Pozioma kreska
+    separator = ctk.CTkFrame(frame, height=2, fg_color="#cccccc")
+    separator.pack(fill="x", padx=20, pady=10)
+
+    # Nowe dane biletów okresowych
     tickets = [
-        ("Miesięczny Gdynia", 90.00, 45.00),
-        ("Miesięczny Metropolitalny", 150.00, 75.00),
-        ("Semestralny Gdynia", 450.00, 225.00),
-        ("Semestralny Metropolitalny", 750.00, 375.00)
+        ("Gdynia - miesięczny zwykły", 103.00, 51.50),
+        ("Gdynia - miesięczny pospieszne/nocne", 115.00, 57.50),
+        ("Sopot/Rumia - miesięczny", 81.00, 40.50),
+        ("Rumia, Reda, Wejherowo - ", 108.00, 54.00),
+        ("Sieć komunikacyjna (wszystkie linie)", 126.00, 63.00)
     ]
 
+    # Ramka na przyciski
     button_frame = ctk.CTkFrame(frame, fg_color="transparent")
     button_frame.pack(pady=30)
 
+    # Styl przycisków
     normal_button_style = {
         "font": ctk.CTkFont(size=14),
-        "width": 300,
-        "height": 60,
+        "width": 280,
+        "height": 50,
         "corner_radius": 20,
         "fg_color": "#3b8ed0",
         "hover_color": "#36719f"
     }
     reduced_button_style = {
         "font": ctk.CTkFont(size=14),
-        "width": 300,
-        "height": 60,
+        "width": 280,
+        "height": 50,
         "corner_radius": 20,
         "fg_color": "#CD8200",
         "hover_color": "#FFA100"
     }
 
+    # Kolumny dla biletów normalnych i ulgowych
     normal_column = ctk.CTkFrame(button_frame, fg_color="transparent")
     reduced_column = ctk.CTkFrame(button_frame, fg_color="transparent")
 
     normal_column.pack(side="left", padx=20)
     reduced_column.pack(side="right", padx=20)
 
+    # Funkcja do obsługi liczby biletów
     def update_ticket_count(ticket_name, ticket_type, price, column, button_style):
         for widget in column.winfo_children():
             widget.destroy()
 
         count_var = ctk.IntVar(value=0)
 
+        # Licznik biletów
         counter_frame = ctk.CTkFrame(column, fg_color="transparent")
         counter_frame.pack(pady=10)
 
         def increase_count():
             count_var.set(count_var.get() + 1)
+            selected_tickets[ticket_type] += 1
             selected_tickets["Suma"] += price
 
         def decrease_count():
             if count_var.get() > 0:
                 count_var.set(count_var.get() - 1)
+                selected_tickets[ticket_type] -= 1
                 selected_tickets["Suma"] -= price
 
         minus_button = ctk.CTkButton(
@@ -334,6 +358,7 @@ def periodic_tickets_window(frame, back_to_menu):
         )
         plus_button.grid(row=0, column=2, padx=10)
 
+        # Przycisk zatwierdzenia
         confirm_button = ctk.CTkButton(
             column,
             text="Zatwierdź",
@@ -347,6 +372,7 @@ def periodic_tickets_window(frame, back_to_menu):
         )
         confirm_button.pack(pady=20)
 
+    # Dodawanie przycisków do kolumn
     for name, price_normal, price_reduced in tickets:
         normal_button = ctk.CTkButton(
             normal_column,
@@ -364,6 +390,7 @@ def periodic_tickets_window(frame, back_to_menu):
         )
         reduced_button.pack(pady=10)
 
+    # Przycisk powrotu
     back_button = ctk.CTkButton(
         frame,
         text="Wróć",
@@ -372,24 +399,9 @@ def periodic_tickets_window(frame, back_to_menu):
         width=150,
         height=40,
         corner_radius=20,
+        fg_color="#333333"
     )
     back_button.pack(pady=20)
-
-    legend_frame = ctk.CTkFrame(frame, fg_color="transparent")
-    legend_frame.pack(pady=10)
-
-    legend_label = ctk.CTkLabel(
-        legend_frame,
-        text=(
-            "Legenda:\n"
-            "- Metropolitalny: Gdynia, Sopot, Gdańsk.\n"
-            "- Semestralny: Ważny przez 5 miesięcy."
-        ),
-        font=ctk.CTkFont(size=10),
-        text_color="#333333",
-        justify="center"
-    )
-    legend_label.pack()
 
 
 

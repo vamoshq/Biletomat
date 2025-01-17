@@ -14,6 +14,9 @@ def cash_payment_screen(frame, total_amount, back_to_payment_screen):
         text_color="black"
     )
     title_label.pack(pady=20)
+     # Pozioma kreska
+    separator = ctk.CTkFrame(frame, height=2, fg_color="#cccccc")
+    separator.pack(fill="x", padx=20, pady=10)
 
     # Wyświetlenie należności
     amount_label = ctk.CTkLabel(
@@ -70,6 +73,7 @@ def cash_payment_screen(frame, total_amount, back_to_payment_screen):
         text="Powrót",
         font=ctk.CTkFont(size=16),
         width=150,
+        fg_color="#333333",
         command=back_to_payment_screen
     )
     back_button.pack(pady=20)
@@ -87,6 +91,10 @@ def card_payment_screen(frame, total_amount, back_to_payment_screen):
         text_color="black"
     )
     title_label.pack(pady=20)
+     # Pozioma kreska
+    separator = ctk.CTkFrame(frame, height=2, fg_color="#cccccc")
+    separator.pack(fill="x", padx=20, pady=10)
+
 
     # Wyświetlenie należności
     amount_label = ctk.CTkLabel(
@@ -144,6 +152,7 @@ def card_payment_screen(frame, total_amount, back_to_payment_screen):
         text="Powrót",
         font=ctk.CTkFont(size=16),
         width=150,
+        fg_color="#333333",
         command=back_to_payment_screen
     )
     back_button.pack(pady=20)
@@ -161,6 +170,9 @@ def payment_screen(frame, back_to_tickets, total_amount):
         text_color="black"
     )
     title_label.pack(pady=20)
+     # Pozioma kreska
+    separator = ctk.CTkFrame(frame, height=2, fg_color="#cccccc")
+    separator.pack(fill="x", padx=20, pady=10)
 
     # Wyświetlenie kwoty do zapłaty
     amount_label = ctk.CTkLabel(
@@ -227,6 +239,7 @@ def payment_screen(frame, back_to_tickets, total_amount):
         width=200,
         height=40,
         corner_radius=20,
+        fg_color="#333333",
         command=back_to_tickets
     )
     back_button.pack(pady=20)
@@ -236,8 +249,10 @@ def one_time_tickets_window(frame, back_to_menu):
     for widget in frame.winfo_children():
         widget.destroy()
 
+    # Słownik przechowujący liczbę i kwotę biletów
     selected_tickets = {"Normalny": 0, "Ulgowy": 0, "Suma": 0.0}
 
+    # Funkcja przejścia do ekranu płatności
     def navigate_to_payment():
         payment_screen(frame, lambda: one_time_tickets_window(frame, back_to_menu), selected_tickets["Suma"])
 
@@ -250,16 +265,23 @@ def one_time_tickets_window(frame, back_to_menu):
     )
     title_label.pack(pady=20)
 
-    # Dane biletów
+    # Pozioma kreska
+    separator = ctk.CTkFrame(frame, height=2, fg_color="#cccccc")
+    separator.pack(fill="x", padx=20, pady=10)
+
+    # Dane biletów (dodano bilety 72-godzinne)
     tickets = [
         ("1-przejazdowy", 4.80, 2.40),
         ("75-minutowy", 6.00, 3.00),
-        ("24-godzinny", 22.00, 11.00)
+        ("24-godzinny", 22.00, 11.00),
+        ("72-godzinny", 48.00, 24.00)  # Dodano bilet 72-godzinny
     ]
 
+    # Ramka na przyciski
     button_frame = ctk.CTkFrame(frame, fg_color="transparent")
     button_frame.pack(pady=30)
 
+    # Styl przycisków
     normal_button_style = {
         "font": ctk.CTkFont(size=14),
         "width": 300,
@@ -277,28 +299,33 @@ def one_time_tickets_window(frame, back_to_menu):
         "hover_color": "#FFA100"
     }
 
+    # Kolumny dla biletów normalnych i ulgowych
     normal_column = ctk.CTkFrame(button_frame, fg_color="transparent")
     reduced_column = ctk.CTkFrame(button_frame, fg_color="transparent")
 
     normal_column.pack(side="left", padx=20)
     reduced_column.pack(side="right", padx=20)
 
+    # Funkcja do obsługi liczby biletów
     def update_ticket_count(ticket_name, ticket_type, price, column, button_style):
         for widget in column.winfo_children():
             widget.destroy()
 
         count_var = ctk.IntVar(value=0)
 
+        # Licznik biletów
         counter_frame = ctk.CTkFrame(column, fg_color="transparent")
         counter_frame.pack(pady=10)
 
         def increase_count():
             count_var.set(count_var.get() + 1)
+            selected_tickets[ticket_type] += 1
             selected_tickets["Suma"] += price
 
         def decrease_count():
             if count_var.get() > 0:
                 count_var.set(count_var.get() - 1)
+                selected_tickets[ticket_type] -= 1
                 selected_tickets["Suma"] -= price
 
         minus_button = ctk.CTkButton(
@@ -331,6 +358,7 @@ def one_time_tickets_window(frame, back_to_menu):
         )
         plus_button.grid(row=0, column=2, padx=10)
 
+        # Przycisk zatwierdzenia
         confirm_button = ctk.CTkButton(
             column,
             text="Zatwierdź",
@@ -344,6 +372,7 @@ def one_time_tickets_window(frame, back_to_menu):
         )
         confirm_button.pack(pady=20)
 
+    # Dodawanie przycisków do kolumn
     for name, price_normal, price_reduced in tickets:
         normal_button = ctk.CTkButton(
             normal_column,
@@ -361,6 +390,7 @@ def one_time_tickets_window(frame, back_to_menu):
         )
         reduced_button.pack(pady=10)
 
+    # Przycisk powrotu do menu głównego
     back_button = ctk.CTkButton(
         frame,
         text="Wróć",
@@ -369,6 +399,7 @@ def one_time_tickets_window(frame, back_to_menu):
         width=150,
         height=40,
         corner_radius=20,
+        fg_color="#333333"
     )
     back_button.pack(pady=20)
 
